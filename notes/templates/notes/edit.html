@@ -1,0 +1,29 @@
+{% extends "notes/base.html" %}
+
+{% block content %}
+<form class="form-card form-card-page" method="post">
+  {% csrf_token %}
+  <h2 class="page-title">Editar anotação</h2>
+  {% if erro %}<p class="alerta">{{ erro }}</p>{% endif %}
+  <label class="sr-only" for="titulo">Título</label>
+  <input
+    class="form-card-title"
+    id="titulo"
+    type="text"
+    name="titulo"
+    placeholder="Título"
+    value="{{ titulo }}"
+  />
+  <label class="sr-only" for="detalhes">Detalhes</label>
+  <textarea
+    class="autoresize"
+    id="detalhes"
+    name="detalhes"
+    placeholder="Digite o conteúdo..."
+  >{{ detalhes }}</textarea>
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="{% url 'index' %}">Cancelar</a>
+    <button class="btn" type="submit">Salvar</button>
+  </div>
+</form>
+{% endblock %}

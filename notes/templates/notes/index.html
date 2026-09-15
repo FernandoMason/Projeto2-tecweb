@@ -3,6 +3,7 @@
 {% block content %}
 <form class="form-card" method="post">
   {% csrf_token %}
+  {% if erro %}<p class="alerta">{{ erro }}</p>{% endif %}
   <label class="sr-only" for="titulo">Título</label>
   <input
     class="form-card-title"
@@ -10,6 +11,7 @@
     type="text"
     name="titulo"
     placeholder="Título"
+    value="{{ titulo }}"
   />
   <label class="sr-only" for="detalhes">Detalhes</label>
   <textarea
@@ -17,7 +19,7 @@
     id="detalhes"
     name="detalhes"
     placeholder="Digite o conteúdo..."
-  ></textarea>
+  >{{ detalhes }}</textarea>
   <button class="btn" type="submit">Criar</button>
 </form>
 
@@ -31,6 +33,22 @@
     </div>
     <div class="card-content">
       <p>{{ note.content }}</p>
+    </div>
+    <div class="card-actions">
+      <a class="card-action" href="{% url 'edit' note.id %}" title="Editar" aria-label="Editar anotação">
+        <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17v3z" />
+          <path d="M14.5 6.5l3 3" />
+        </svg>
+      </a>
+      <a class="card-action" href="{% url 'delete' note.id %}" title="Apagar" aria-label="Apagar anotação">
+        <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M4 7h16" />
+          <path d="M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+          <path d="M6 7l1 12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2l1-12" />
+          <path d="M10 11v6M14 11v6" />
+        </svg>
+      </a>
     </div>
   </div>
   {% empty %}
