@@ -1,0 +1,46 @@
+[
+{
+  "model": "notes.note",
+  "pk": 1,
+  "fields": {
+    "title": "Receita de miojo",
+    "content": "Bata com um martelo antes de abrir o pacote. Misture o tempero, coloque em uma vasilha e aproveite seu snack :)",
+    "tags": []
+  }
+},
+{
+  "model": "notes.note",
+  "pk": 2,
+  "fields": {
+    "title": "Pao doce",
+    "content": "Comprar fermento, farinha e leite condensado na volta da aula.",
+    "tags": []
+  }
+},
+{
+  "model": "notes.note",
+  "pk": 3,
+  "fields": {
+    "title": "Sorvete com cristais de leite",
+    "content": "Deixar o pote fora do congelador por 5 minutos antes de servir.",
+    "tags": []
+  }
+},
+{
+  "model": "auth.user",
+  "fields": {
+    "password": "pbkdf2_sha256$1500000$n5ZLUVpAKifTNNm75WsAXJ$fNOuA2MEEkhPg1jKmZCmNUqOfNFAtXi2P3NIF06WlC8=",
+    "last_login": "2026-09-15T11:15:43.039Z",
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "",
+    "last_name": "",
+    "email": "admin@example.com",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-09-15T11:15:01.893Z",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]

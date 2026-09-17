@@ -1,0 +1,29 @@
+# PostgreSQL do Get-it (Tarefa 03 do Projeto 1B).
+#
+#   docker compose up -d      sobe o banco
+#   docker compose down       para o banco (os dados ficam no volume)
+#
+# Equivale ao "docker run" do handout, mas deixa a configuração registrada
+# no repositório em vez de depender de um comando digitado à mão.
+
+services:
+  db:
+    image: postgres:16
+    container_name: pg-docker
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: getit
+      POSTGRES_USER: getituser
+      POSTGRES_PASSWORD: getitsenha
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg-docker-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U getituser -d getit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg-docker-data:
