@@ -1,0 +1,29 @@
+# Blueprint do Render: descreve o banco e a aplicação do Get-it.
+# No painel do Render: New + -> Blueprint -> escolher este repositório.
+
+databases:
+  - name: getit-db
+    plan: free
+    databaseName: getit
+    user: getituser
+
+services:
+  - type: web
+    name: getit
+    runtime: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn getit.wsgi:application"
+    envVars:
+      # Conecta a aplicação ao banco criado acima.
+      - key: DATABASE_URL
+        fromDatabase:
+          name: getit-db
+          property: connectionString
+      # Chave gerada pelo próprio Render, não fica no repositório.
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.13.7"

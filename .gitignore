@@ -14,3 +14,6 @@ tests/.coverage
 build/
 tests/report/
 .DS_Store
+
+# arquivos juntados pelo collectstatic
+staticfiles/
