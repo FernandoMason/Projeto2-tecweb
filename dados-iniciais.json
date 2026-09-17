@@ -1,14 +1,12 @@
 [
 {
   "model": "notes.tag",
-  "pk": 4,
   "fields": {
     "nome": "Doce"
   }
 },
 {
   "model": "notes.tag",
-  "pk": 5,
   "fields": {
     "nome": "Salgado"
   }
@@ -20,7 +18,9 @@
     "title": "Receita de miojo",
     "content": "Bata com um martelo antes de abrir o pacote. Misture o tempero, coloque em uma vasilha e aproveite seu snack :)",
     "tags": [
-      5
+      [
+        "Salgado"
+      ]
     ]
   }
 },
@@ -31,7 +31,9 @@
     "title": "Pao doce",
     "content": "Comprar fermento, farinha e leite condensado na volta da aula.",
     "tags": [
-      4
+      [
+        "Doce"
+      ]
     ]
   }
 },
@@ -42,7 +44,9 @@
     "title": "Sorvete com cristais de leite",
     "content": "Deixar o pote fora do congelador por 5 minutos antes de servir.",
     "tags": [
-      4
+      [
+        "Doce"
+      ]
     ]
   }
 },
