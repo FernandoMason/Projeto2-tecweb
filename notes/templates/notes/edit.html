@@ -11,6 +11,7 @@
     id="titulo"
     type="text"
     name="titulo"
+    maxlength="200"
     placeholder="Título"
     value="{{ titulo }}"
   />
@@ -21,6 +22,16 @@
     name="detalhes"
     placeholder="Digite o conteúdo..."
   >{{ detalhes }}</textarea>
+  <label class="sr-only" for="tag">Tag</label>
+  <input
+    class="form-card-tag"
+    id="tag"
+    type="text"
+    name="tag"
+    maxlength="200"
+    placeholder="Tag (deixe vazio para remover)"
+    value="{{ tag }}"
+  />
   <div class="form-actions">
     <a class="btn btn-secondary" href="{% url 'index' %}">Cancelar</a>
     <button class="btn" type="submit">Salvar</button>

@@ -1,0 +1,19 @@
+{% extends "notes/base.html" %}
+
+{% block content %}
+<div class="form-card form-card-page">
+  <h2 class="page-title">Tags</h2>
+  {% if tags %}
+  <ul class="tag-list">
+    {% for tag in tags %}
+    <li><a href="{% url 'tag_detail' tag.id %}">{{ tag.nome }}</a></li>
+    {% endfor %}
+  </ul>
+  {% else %}
+  <p class="page-text">Nenhuma tag por enquanto.</p>
+  {% endif %}
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="{% url 'index' %}">Voltar</a>
+  </div>
+</div>
+{% endblock %}

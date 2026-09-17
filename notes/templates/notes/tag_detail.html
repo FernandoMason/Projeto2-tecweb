@@ -1,38 +1,16 @@
 {% extends "notes/base.html" %}
 
 {% block content %}
-<form class="form-card" method="post">
-  {% csrf_token %}
-  {% if erro %}<p class="alerta">{{ erro }}</p>{% endif %}
-  <label class="sr-only" for="titulo">Título</label>
-  <input
-    class="form-card-title"
-    id="titulo"
-    type="text"
-    name="titulo"
-    maxlength="200"
-    placeholder="Título"
-    value="{{ titulo }}"
-  />
-  <label class="sr-only" for="detalhes">Detalhes</label>
-  <textarea
-    class="autoresize"
-    id="detalhes"
-    name="detalhes"
-    placeholder="Digite o conteúdo..."
-  >{{ detalhes }}</textarea>
-  <label class="sr-only" for="tag">Tag</label>
-  <input
-    class="form-card-tag"
-    id="tag"
-    type="text"
-    name="tag"
-    maxlength="200"
-    placeholder="Tag (opcional)"
-    value="{{ tag }}"
-  />
-  <button class="btn" type="submit">Criar</button>
-</form>
+<div class="form-card form-card-page">
+  <h2 class="page-title">{{ tag.nome }}</h2>
+  <p class="page-text">
+    {{ notes|length }} anotação(ões) com esta tag.
+  </p>
+  <div class="form-actions">
+    <a class="btn btn-secondary" href="{% url 'tags' %}">Todas as tags</a>
+    <a class="btn" href="{% url 'index' %}">Início</a>
+  </div>
+</div>
 
 <div class="card-container">
   {% for note in notes %}
@@ -45,11 +23,6 @@
     <div class="card-content">
       <p>{{ note.content }}</p>
     </div>
-    {% if note.tag %}
-    <div class="card-tags">
-      <a class="card-tag" href="{% url 'tag_detail' note.tag.id %}">{{ note.tag.nome }}</a>
-    </div>
-    {% endif %}
     <div class="card-actions">
       <a class="card-action" href="{% url 'edit' note.id %}" title="Editar" aria-label="Editar anotação">
         <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">
@@ -68,7 +41,7 @@
     </div>
   </div>
   {% empty %}
-  <p class="page-text">Nenhuma anotação por enquanto.</p>
+  <p class="page-text">Nenhuma anotação com esta tag.</p>
   {% endfor %}
 </div>
 {% endblock %}
