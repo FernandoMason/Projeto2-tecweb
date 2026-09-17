@@ -4,9 +4,17 @@ Projeto 1B de Tecnologias Web (Insper, 2026/2) — reimplementação do **Get-it
 usando o framework Django, seguindo o handout da Aula 04 e as tarefas do
 Projeto 1B.
 
+## 🚀 Aplicação publicada
+
+**https://getit-1yem.onrender.com**
+
+> Hospedada no Render (plano gratuito). O serviço hiberna depois de um tempo sem
+> acesso, então o **primeiro carregamento pode levar cerca de um minuto**.
+
 - Projeto Django: `getit`
 - App: `notes`
-- Banco de dados: **PostgreSQL** em container Docker
+- Banco de dados: **PostgreSQL** (em container Docker no ambiente local, e
+  gerenciado pelo Render em produção)
 
 ## Funcionalidades
 

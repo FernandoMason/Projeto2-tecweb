@@ -10,3 +10,7 @@ python manage.py collectstatic --no-input
 
 # Cria/atualiza as tabelas no PostgreSQL do Render.
 python manage.py migrate
+
+# Carrega as anotações de exemplo. O fixture tem as chaves primárias fixas,
+# então rodar de novo atualiza os mesmos registros em vez de duplicá-los.
+python manage.py loaddata dados-iniciais.json
