@@ -463,8 +463,11 @@ a.btn {
   color: #4c4c4c;
 }
 
-/* Etiqueta da tag dentro do cartão */
+/* Etiquetas das tags dentro do cartão */
 .card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
   margin-top: 10px;
 }
 

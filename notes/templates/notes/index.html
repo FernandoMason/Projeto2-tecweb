@@ -21,15 +21,14 @@
     name="detalhes"
     placeholder="Digite o conteúdo..."
   >{{ detalhes }}</textarea>
-  <label class="sr-only" for="tag">Tag</label>
+  <label class="sr-only" for="tags">Tags</label>
   <input
     class="form-card-tag"
-    id="tag"
+    id="tags"
     type="text"
-    name="tag"
-    maxlength="200"
-    placeholder="Tag (opcional)"
-    value="{{ tag }}"
+    name="tags"
+    placeholder="Tags separadas por vírgula (opcional)"
+    value="{{ tags }}"
   />
   <button class="btn" type="submit">Criar</button>
 </form>
@@ -45,9 +44,11 @@
     <div class="card-content">
       <p>{{ note.content }}</p>
     </div>
-    {% if note.tag %}
+    {% if note.tags.all %}
     <div class="card-tags">
-      <a class="card-tag" href="{% url 'tag_detail' note.tag.id %}">{{ note.tag.nome }}</a>
+      {% for tag in note.tags.all %}
+      <a class="card-tag" href="{% url 'tag_detail' tag.id %}">{{ tag.nome }}</a>
+      {% endfor %}
     </div>
     {% endif %}
     <div class="card-actions">

@@ -23,6 +23,13 @@
     <div class="card-content">
       <p>{{ note.content }}</p>
     </div>
+    {% if note.tags.all %}
+    <div class="card-tags">
+      {% for t in note.tags.all %}
+      <a class="card-tag" href="{% url 'tag_detail' t.id %}">{{ t.nome }}</a>
+      {% endfor %}
+    </div>
+    {% endif %}
     <div class="card-actions">
       <a class="card-action" href="{% url 'edit' note.id %}" title="Editar" aria-label="Editar anotação">
         <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true">

@@ -10,31 +10,37 @@ MAX_TAG = 200
 
 ERRO_SEM_TITULO = 'A anotação precisa de um título.'
 ERRO_TITULO_LONGO = f'O título pode ter no máximo {MAX_TITULO} caracteres.'
-ERRO_TAG_LONGA = f'A tag pode ter no máximo {MAX_TAG} caracteres.'
+ERRO_TAG_LONGA = f'Cada tag pode ter no máximo {MAX_TAG} caracteres.'
 
 
-def validar(titulo, tag_nome):
+def separar_nomes_de_tags(texto):
+    """Quebra "tag1, tag2, tag3" na lista de nomes, sem vazios nem repetidos."""
+    nomes = []
+    for nome in (texto or '').split(','):
+        nome = nome.strip()
+        if nome and nome not in nomes:
+            nomes.append(nome)
+    return nomes
+
+
+def validar(titulo, nomes_de_tags):
     """Devolve a mensagem de erro do formulário, ou None se estiver tudo certo."""
     if not titulo:
         return ERRO_SEM_TITULO
     if len(titulo) > MAX_TITULO:
         return ERRO_TITULO_LONGO
-    if len(tag_nome.strip()) > MAX_TAG:
+    if any(len(nome) > MAX_TAG for nome in nomes_de_tags):
         return ERRO_TAG_LONGA
     return None
 
 
-def buscar_ou_criar_tag(nome):
-    """Devolve a Tag com esse nome, criando-a se ainda não existir.
+def buscar_ou_criar_tags(nomes):
+    """Devolve as Tags com esses nomes, criando as que ainda não existirem.
 
-    Campo vazio significa "anotação sem tag", então devolve None.
-    O get_or_create garante que não haja tags duplicadas no banco.
+    O get_or_create garante que não haja tags duplicadas no banco: uma tag já
+    usada por outra anotação é reaproveitada em vez de duplicada.
     """
-    nome = (nome or '').strip()
-    if not nome:
-        return None
-    tag, _ = Tag.objects.get_or_create(nome=nome)
-    return tag
+    return [Tag.objects.get_or_create(nome=nome)[0] for nome in nomes]
 
 
 def index(request):
@@ -42,23 +48,22 @@ def index(request):
     if request.method == 'POST':
         title = request.POST.get('titulo', '').strip()
         content = request.POST.get('detalhes', '').strip()
-        tag_nome = request.POST.get('tag', '')
-        erro = validar(title, tag_nome)
+        texto_tags = request.POST.get('tags', '')
+        nomes = separar_nomes_de_tags(texto_tags)
+        erro = validar(title, nomes)
         if erro is None:
-            Note.objects.create(
-                title=title,
-                content=content,
-                tag=buscar_ou_criar_tag(tag_nome),
-            )
+            note = Note.objects.create(title=title, content=content)
+            # set() aceita lista vazia, então anotação sem tag funciona igual.
+            note.tags.set(buscar_ou_criar_tags(nomes))
             return redirect('index')
     else:
-        title, content, tag_nome, erro = '', '', '', None
+        title, content, texto_tags, erro = '', '', '', None
 
     return render(request, 'notes/index.html', {
         'notes': Note.objects.all(),
         'titulo': title,
         'detalhes': content,
-        'tag': tag_nome,
+        'tags': texto_tags,
         'erro': erro,
     })
 
@@ -70,26 +75,28 @@ def edit(request, note_id):
     if request.method == 'POST':
         title = request.POST.get('titulo', '').strip()
         content = request.POST.get('detalhes', '').strip()
-        tag_nome = request.POST.get('tag', '')
-        erro = validar(title, tag_nome)
+        texto_tags = request.POST.get('tags', '')
+        nomes = separar_nomes_de_tags(texto_tags)
+        erro = validar(title, nomes)
         if erro is None:
             note.title = title
             note.content = content
-            # Campo de tag em branco remove a tag da anotação.
-            note.tag = buscar_ou_criar_tag(tag_nome)
             note.save()
+            # set() substitui a lista inteira: tags digitadas são adicionadas e
+            # as que sumiram do campo são desassociadas da anotação.
+            note.tags.set(buscar_ou_criar_tags(nomes))
             return redirect('index')
     else:
         title = note.title
         content = note.content
-        tag_nome = note.tag.nome if note.tag else ''
+        texto_tags = note.tags_como_texto()
         erro = None
 
     return render(request, 'notes/edit.html', {
         'note': note,
         'titulo': title,
         'detalhes': content,
-        'tag': tag_nome,
+        'tags': texto_tags,
         'erro': erro,
     })
 

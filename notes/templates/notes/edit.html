@@ -22,15 +22,14 @@
     name="detalhes"
     placeholder="Digite o conteúdo..."
   >{{ detalhes }}</textarea>
-  <label class="sr-only" for="tag">Tag</label>
+  <label class="sr-only" for="tags">Tags</label>
   <input
     class="form-card-tag"
-    id="tag"
+    id="tags"
     type="text"
-    name="tag"
-    maxlength="200"
-    placeholder="Tag (deixe vazio para remover)"
-    value="{{ tag }}"
+    name="tags"
+    placeholder="Tags separadas por vírgula (apague para remover)"
+    value="{{ tags }}"
   />
   <div class="form-actions">
     <a class="btn btn-secondary" href="{% url 'index' %}">Cancelar</a>
